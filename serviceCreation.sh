@@ -27,10 +27,10 @@ FROM maven
 RUN apt-get update && apt-get install git
 RUN mkdir /app
 WORKDIR /app
-RUN git clone https://github.com/sahiljanbandhu/Matrix-Multiplication.git
-RUN chmod +x /app/Matrix-Multiplication/Matrix/dist/Matrix.jar
+RUN git clone ${repoUrl}
+RUN chmod +x /app/build/libs/project.jar
 EXPOSE 9000
-CMD ["java", "-jar", "/app/Matrix-Multiplication/Matrix/dist/Matrix.jar"]
+CMD ["java", "-jar", "/app/build/libs/project.jar"]
 EOF
 
 
