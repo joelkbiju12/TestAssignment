@@ -34,7 +34,7 @@ EXPOSE 9000
 CMD ["java", "-jar", "/app/build/libs/project.jar"]
 EOF
 
-
+#Building docker image
 
 docker build -t java-app .
 
@@ -134,16 +134,19 @@ jobs:
 EOF
 
 #Installing kubectl
+
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
 echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Installing eksctl
+
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
 
 #Assuming kubeconfig file is installed in the machine
+
 aws eks --region region update-kubeconfig --name ${cluster_name}
 
 
@@ -156,6 +159,8 @@ curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-lo
 aws iam create-policy \
   - policy-name AWSLoadBalancerControllerIAMPolicy \
   - policy-document file://iam_policy.json
+
+#Create serviceaccount for aws lb controller
 
 eksctl create iamserviceaccount \
 --cluster ${cluster_name} - region ${aws_region} \
@@ -248,6 +253,8 @@ spec:
   selector:
     app: java-app 
 EOF 
+
+#Deploying Kubernetes deployment , loadbalancer service and AWS NLB
 
 kubectl apply -f javaAppDeployment.yaml
 
