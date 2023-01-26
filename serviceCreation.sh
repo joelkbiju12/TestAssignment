@@ -2,6 +2,7 @@
 
 aws_account_id="123456789"
 aws_region="ap-south-1"
+#Provide ssh url as repo url and add github keys to your github account
 repoUrl="https://github.com/sahiljanbandhu/Matrix-Multiplication.git"
 repository="java-app"
 tag="latest"
