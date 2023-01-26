@@ -39,7 +39,9 @@ ASSESMENT CRITERIA
 1. Multiple failures are expected in the script during installation therefore we print logs using exit code of previous command and exit the script if any critical command failed
 2. Script prints failed and success logs for critical commands using their exit codes
 3. Kubernetes load balancer has multiple parameters set like annotations which will help create an external AWS Network load balancer
-    service.beta.kubernetes.io/aws-load-balancer-type: external 
-    service.beta.kubernetes.io/aws-load-balancer-name : mynlb 
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing 
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip 
+    1. service.beta.kubernetes.io/aws-load-balancer-type: external 
+    2. service.beta.kubernetes.io/aws-load-balancer-name : mynlb 
+    3. service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing 
+    4. service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip 
+    5. targetPort: 9000
+    6. port: 80
