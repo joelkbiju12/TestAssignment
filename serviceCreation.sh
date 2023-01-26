@@ -133,14 +133,10 @@ jobs:
 EOF
 
 #Installing kubectl
-VERSION=v1.23.6
-curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-  --progress-bar \
-  --location \
-  --remote-name
-chmod +x kubectl
-sudo mv kubectl /usr/local/bin/
-echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Installing eksctl
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
