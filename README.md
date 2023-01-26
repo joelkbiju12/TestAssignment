@@ -33,3 +33,13 @@ serviceCreation.sh
 NOTE: 
 1. This github action commands and steps needed to setup and configure Kubernetes cluster has been written after referring to multiple sources from the web.
 2. I couldn’t run or test serviceCreation.sh and Github actions due to absence of a paid AWS account to test out using EKS cluster, AWS Network load balancer and IAM.
+
+ASSESMENT CRITERIA
+
+1. Multiple failures are expected in the script during installation therefore we print logs using exit code of previous command and exit the script if any critical command failed
+2. Script prints failed and success logs for critical commands using their exit codes
+3. Kubernetes load balancer has multiple parameters set like annotations which will help create an external AWS Network load balancer
+    service.beta.kubernetes.io/aws-load-balancer-type: external 
+    service.beta.kubernetes.io/aws-load-balancer-name : mynlb 
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing 
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip 
