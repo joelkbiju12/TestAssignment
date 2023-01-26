@@ -48,7 +48,7 @@ fi
 
 #Tagging image to push to ECR
 
-docker tag java-app ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/my-repository:tag
+docker tag java-app ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/${repository}:${tag}
 
 docker push ${aws_account_id}.dkr.ecr.region.amazonaws.com/${repository}:${tag}
 
