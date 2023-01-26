@@ -49,7 +49,7 @@ fi
 
 docker tag java-app ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/my-repository:tag
 
-#docker push $(aws_account_id).dkr.ecr.region.amazonaws.com/$(repository):$(tag)
+docker push ${aws_account_id}.dkr.ecr.region.amazonaws.com/${repository}:${tag}
 
 #Creating Github actions yml for deploying in kubernetes
 
