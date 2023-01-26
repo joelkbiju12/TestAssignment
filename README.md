@@ -1,8 +1,10 @@
 PREREQUISITES
+
 Server containing aws credentials, github ssh key and kubeconfig file is used to run the serviceCreation.sh script.
 Repository url, AWS account id, AWS region, EKS cluster name and image tag should be hard coded as variables at the beginning of  bash script.
 
 ASSUMPTIONS
+
 We are deploying the code into an existing EKS cluster.
 serviceCreation.sh script is a one time script used to create a Kubernetes deployment, service and AWS NLB load balancer for the new application
 Dockerfile and Github action files will be created by this script which will need to pushed to the Github repo containing the code or used accordingly.
