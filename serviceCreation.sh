@@ -23,10 +23,11 @@ fi
 #Creating Dockerfile
 
 cat > Dockerfile << EOF
-FROM openjdk:8-jre-alpine
+FROM maven
+RUN apt-get update && apt-get install git
 RUN mkdir /app
 WORKDIR /app
-VOLUME Matrix-Multiplication .
+RUN git clone https://github.com/sahiljanbandhu/Matrix-Multiplication.git
 RUN chmod +x /app/Matrix-Multiplication/Matrix/dist/Matrix.jar
 EXPOSE 9000
 CMD ["java", "-jar", "/app/Matrix-Multiplication/Matrix/dist/Matrix.jar"]
@@ -51,6 +52,85 @@ docker tag java-app ${aws_account_id}.dkr.ecr.${region}.amazonaws.com/my-reposit
 #docker push $(aws_account_id).dkr.ecr.region.amazonaws.com/$(repository):$(tag)
 
 #Creating Github actions yml for deploying in kubernetes
+
+cat > cd.yml <<EOF
+name: cd
+
+on:
+  push:
+    branches:
+      - master
+
+env: 
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: java-app
+  SHORT_SHA: $(echo \${{ github.sha }} | cut -c 1-8)
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs:
+      - run-tests
+
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: \${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: \${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: \${{ env.AWS_REGION }}
+      
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: \${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: \${{ secrets.REPO_NAME }}
+        IMAGE_TAG: latest
+      run: |
+        # Build a docker container and push it to ECR 
+        docker build -t \$ECR_REGISTRY/\$ECR_REPOSITORY:\$IMAGE_TAG .
+        echo "Pushing image to ECR..."
+        docker push \$ECR_REGISTRY/\$ECR_REPOSITORY:\$IMAGE_TAG
+        echo "::set-output name=image::\$ECR_REGISTRY/\$ECR_REPOSITORY:\$IMAGE_TAG"
+
+    - name: Install kubectl
+      run: |
+        VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+        # https://github.com/aws/aws-cli/issues/6920#issuecomment-1117981158
+        VERSION=v1.23.6
+        curl https://storage.googleapis.com/kubernetes-release/release/\$VERSION/bin/linux/amd64/kubectl \
+          --progress-bar \
+          --location \
+          --remote-name
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin/
+        echo \${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+        
+    - name: Deploy
+      env:
+        ECR_REGISTRY: \${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: \${{ secrets.REPO_NAME }}
+        IMAGE_TAG: latest
+      run: |
+        export ECR_REPOSITORY=\${{ env.ECR_REGISTRY }}/\${{ env.ECR_REPOSITORY }}
+        export IMAGE_TAG=\${{ env.SHORT_SHA }}
+        export KUBECONFIG=kubeconfig.yaml
+        kubectl set image deployment/java-app app=\$ECR_REGISTRY/\$ECR_REPOSITORY:\$IMAGE_TAG 
+EOF
 
 #Installing kubectl
 VERSION=v1.23.6
@@ -166,7 +246,7 @@ spec:
   type: LoadBalancer
   ports:
     - port: 80 
-      targetPort: 9000 #The port on the pod which is backing this service. If not specified, it is assumed to be the same as the service port.
+      targetPort: 9000 
       name: http
   selector:
     app: java-app 
