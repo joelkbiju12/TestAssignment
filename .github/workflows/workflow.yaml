@@ -1,4 +1,10 @@
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        description: "Identifier for your environment"
+        type: string
   repository_dispatch:
     types: [publish_blog]
 jobs:
