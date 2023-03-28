@@ -7,11 +7,6 @@ on:
         type: string
   repository_dispatch:
     types: [publish_blog]
-    inputs:
-      environment:
-        required: true
-        description: "Identifier for your environment"
-        type: string
 jobs:
   validate-namespace:
     runs-on: ubuntu-latest
