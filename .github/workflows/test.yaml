@@ -1,7 +1,11 @@
 name: Test
 on:
-  workflow_run:
-      workflows: [ "Print" ]
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        description: "Identifier for your environment"
+        type: string
   workflow_dispatch:
     inputs:
       environment:

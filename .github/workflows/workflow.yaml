@@ -15,3 +15,7 @@ jobs:
       - name: Print Hi
         run: |
           echo "Hi"
+  call-workflow-passing-data:
+    uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
+    with:
+      environment: ${{ inputs.environment}}
