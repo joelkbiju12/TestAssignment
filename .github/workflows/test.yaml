@@ -1,0 +1,19 @@
+name: Test
+on:
+  workflow_run:
+      workflows: [ "Print" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        description: "Identifier for your environment"
+        type: string
+  repository_dispatch:
+    types: [publish_blog]
+jobs:
+  test-123:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hi
+        run: |
+          echo "It worked"
