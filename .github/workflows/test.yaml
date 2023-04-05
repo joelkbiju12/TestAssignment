@@ -21,7 +21,7 @@ jobs:
       - name: Print Hi
         run: |
           echo ${{ inputs.environment}}
-  Run script:
+  run-script:
     name: Test secret
     runs-on: ubuntu-latest
     steps:
