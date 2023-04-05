@@ -32,6 +32,9 @@ jobs:
         with:
           python-version: '3.10'
       - name: Python Script
+        with:
+          URL: ${{ secrets.URL}}
+          CI_TOKEN: ${{ secrets.CI_TOKEN}}
         run: |
           echo $URL
           sudo apt-get install -y \
