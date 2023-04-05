@@ -1,6 +1,7 @@
 import requests
 import subprocess
 import redis
+import os
 from datetime import datetime, timedelta, time
 
 github_token = os.environ["CI_TOKEN"]
