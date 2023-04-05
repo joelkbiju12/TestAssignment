@@ -5,7 +5,7 @@ import os
 from datetime import datetime, timedelta, time
 
 #github_token = os.environ["CI_TOKEN"]
-url = $URL
+url = os.environ["URL"]
 #headers = {"Authorization": "token %s" % github_token}
 data = {"ref":"main","inputs":{"environment":"12345678"}}
 #response = requests.post(url,json=data,headers=headers)
