@@ -1,4 +1,4 @@
-name: Test
+name: On Demand Expiry Update
 on:
   workflow_call:
     inputs:
@@ -12,17 +12,10 @@ on:
         required: true
         description: "Identifier for your environment"
         type: string
-  repository_dispatch:
-    types: [publish_blog]
+      
 jobs:
-  test-123:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Hi
-        run: |
-          echo ${{ inputs.environment}}
-  run-script:
-    name: Test secret
+  ondemand-env-expiry:
+    name: Update ondemand expiry date
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -33,16 +26,10 @@ jobs:
           python-version: '3.10'
       - name: Python Script
         env:
-          URL: ${{ secrets.URL}}
-          CI_TOKEN: ${{ secrets.CI_TOKEN}}
+          DEPLOY_NAMESPACE: ${{ inputs.environment }}
+          EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
         run: |
-          echo $URL
-          sudo apt-get install -y \
-          python3 \
-          python3-pip \
-          curl
+          sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
-          pip3 install requests
-          pip3 install datetime
-          pip3 install redis
-          python3 test.py
+          pip3 install datetime redis pytz
+          python3 updateEnvExpiry.py
