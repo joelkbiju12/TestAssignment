@@ -7,16 +7,25 @@ on:
         description: "Identifier for your environment"
         type: string
       action:
-        required: true
-        description: "Identifier for your action"
+        required: false
+        description: "Action"
         type: string
-      
+        default: "update"
   workflow_dispatch:
     inputs:
       environment:
         required: true
         description: "Identifier for your environment"
         type: string
+      action:
+        required: false
+        description: "Action for"
+        type: string
+        options: 
+         - delete
+         - update
+        default: "update"
+        
       
 jobs:
   ondemand-env-expiry:
@@ -33,7 +42,7 @@ jobs:
         env:
           DEPLOY_NAMESPACE: ${{ inputs.environment }}
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
-          ACTION: ${{ inputs.action}}
+          ACTION: ${{ inputs.action }}
         run: |
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
