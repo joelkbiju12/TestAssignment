@@ -6,6 +6,11 @@ on:
         required: true
         description: "Identifier for your environment"
         type: string
+      action:
+        required: true
+        description: "Identifier for your action"
+        type: string
+      
   workflow_dispatch:
     inputs:
       environment:
