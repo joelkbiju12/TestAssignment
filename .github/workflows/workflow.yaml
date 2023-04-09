@@ -17,7 +17,7 @@ jobs:
           if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
             echo "workedbro"
           fi
-          echo "Hi"
+          echo ${{ inputs.environment }}
           echo $GITHUB_EVENT_NAME
   set-env-expiry:
     uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
