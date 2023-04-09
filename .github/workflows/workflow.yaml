@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Print Hi
         run: |
+          if [ $GITHUB_EVENT_NAME=="workflow_dispatch"]:
+            echo "workedbro"
           echo "Hi"
           echo $GITHUB_EVENT_NAME
   set-env-expiry:
