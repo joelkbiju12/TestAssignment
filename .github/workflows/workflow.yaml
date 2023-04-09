@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Print Hi
         run: |
-          if [ $GITHUB_EVENT_NAME=="workflow_dispatch"]; then
+          if [ $GITHUB_EVENT_NAME -eq "workflow_dispatch"]; then
             echo "workedbro"
           fi
           echo "Hi"
