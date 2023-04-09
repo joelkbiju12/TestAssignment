@@ -15,6 +15,7 @@ jobs:
       - name: Print Hi
         run: |
           echo "Hi"
+          echo $GITHUB_EVENT_NAME
   set-env-expiry:
     uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
     with:
