@@ -6,7 +6,7 @@ from pytz import timezone
 import time
 
 def update_expiry():
-    #time.sleep(15)
+    print(sys.argv[1])
     try:
         redis_password = os.environ["EXPIRY_REDIS_PASSWORD"]
         ondemand_env = os.environ["DEPLOY_NAMESPACE"]
