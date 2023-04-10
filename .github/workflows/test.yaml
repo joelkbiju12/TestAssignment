@@ -44,8 +44,8 @@ jobs:
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
-          echo ${{ github.event.inputs.action }}
-          python3 updateEnvExpiry.py ${{ github.event.inputs.action }}
+          echo ${{ inputs.action }}
+          python3 updateEnvExpiry.py ${{ inputs.action }}
       
   successful-job:
     name: Test success
