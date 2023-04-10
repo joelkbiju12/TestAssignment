@@ -42,14 +42,14 @@ jobs:
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
           ACTION: ${{ inputs.action }}
         run: |
+          sudo apt-get install -y python3-pip 
+          python3 -m pip install --upgrade pip
+          pip3 install datetime redis pytz
           if [ {{ $inputs.action}} = "update" ]; then
               python3 updateEnvExpiry.py "update"
           else
               python3 updateEnvExpiry.py "delete"
           fi
-          sudo apt-get install -y python3-pip 
-          python3 -m pip install --upgrade pip
-          pip3 install datetime redis pytz
   successful-job:
     name: Test success
     runs-on: ubuntu-latest
