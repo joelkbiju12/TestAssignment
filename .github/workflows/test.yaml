@@ -18,13 +18,6 @@ on:
         required: true
         description: "Identifier for your environment"
         type: string
-      action:
-        required: false
-        description: "Action for"
-        type: string
-        options: 
-         - delete
-         - update
         
       
 jobs:
@@ -60,6 +53,9 @@ jobs:
       - name: Inputs username (workflow dispatch)
         if: ${{ github.event.inputs.environment }} != ''
         run: echo ${{ github.event.inputs.environment }}
+      - name: Print variable if not empty
+        if: "${{ github.event.inputs.action != '' }}"
+        run: echo Level value is ${{ github.event.inputs.action }}
   successful-job:
     name: Test success
     runs-on: ubuntu-latest
