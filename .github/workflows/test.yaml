@@ -47,12 +47,12 @@ jobs:
           pip3 install datetime redis pytz
           python3 updateEnvExpiry.py $ACTION
       - name: Inputs username (workflow call)
-        if: ${{ inputs.environment }} != ''
-        run: echo ${{ inputs.environment }}
+        if: ${{ inputs.action }} != ''
+        run: echo ${{ inputs.action }}
 
       - name: Inputs username (workflow dispatch)
-        if: ${{ github.event.inputs.environment }} != ''
-        run: echo ${{ github.event.inputs.environment }}
+        if: ${{ github.event.inputs.action }} != ''
+        run: echo ${{ github.event.inputs.action }}
       - name: Print variable if not empty
         if: github.event_name == 'workflow_dispatch'
         run: echo "workflow_call"
