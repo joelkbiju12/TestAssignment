@@ -41,17 +41,14 @@ jobs:
         env:
           DEPLOY_NAMESPACE: ${{ inputs.environment }}
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
-          ACTION: ${{ inputs.action }}
+          ACTION: ${{ github.event.inputs.action }}
         run: |
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
           echo ${{ github.event.inputs.action }}
-          if [ ${{ github.event.inputs.action }} = "update" ]; then
-              python3 updateEnvExpiry.py "update"
-          else
-              python3 updateEnvExpiry.py "delete"
-          fi
+          python3 updateEnvExpiry.py $ACTION
+      
   successful-job:
     name: Test success
     runs-on: ubuntu-latest
