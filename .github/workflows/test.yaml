@@ -19,10 +19,11 @@ on:
         description: "Identifier for your environment"
         type: string
       action:
-        required: false
+        required: true
         description: "Action"
-        type: string
-        default: "update"
+        type: choice
+        options:
+        - update
           
       
 jobs:
