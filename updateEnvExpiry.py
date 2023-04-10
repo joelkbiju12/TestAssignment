@@ -7,6 +7,10 @@ import time
 
 def update_expiry():
     print(sys.argv[1])
+    if sys.argv[1] == "update":
+        print("Updating redis key")
+    if sys.argv[1] == "delete":
+        print("Deleting redis key")
     try:
         redis_password = os.environ["EXPIRY_REDIS_PASSWORD"]
         ondemand_env = os.environ["DEPLOY_NAMESPACE"]
