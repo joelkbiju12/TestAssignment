@@ -54,8 +54,8 @@ jobs:
         if: ${{ github.event.inputs.environment }} != ''
         run: echo ${{ github.event.inputs.environment }}
       - name: Print variable if not empty
-        if: "${{ github.event.inputs.action != '' }}"
-        run: echo Level value is ${{ github.event.inputs.action }}
+        if: github.event_name != 'workflow_dispatch'
+        run: echo "workflow_call"
   successful-job:
     name: Test success
     runs-on: ubuntu-latest
