@@ -19,7 +19,7 @@ on:
         description: "Identifier for your environment"
         type: string
       action:
-        required: false
+        required: true
         description: "Action"
         type: choice
         options:
