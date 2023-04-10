@@ -18,6 +18,13 @@ on:
         required: true
         description: "Identifier for your environment"
         type: string
+      action:
+        required: false
+        description: "Action"
+        type: choice
+        options:
+          - update
+          
       
 jobs:
   ondemand-env-expiry:
@@ -40,10 +47,10 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
           echo ${{ github.event.inputs.action }}
-          if [ ${{ github.event.inputs.action }} = "delete" ]; then
-              python3 updateEnvExpiry.py "delete"
-          else
+          if [ ${{ github.event.inputs.action }} = "update" ]; then
               python3 updateEnvExpiry.py "update"
+          else
+              python3 updateEnvExpiry.py "delete"
           fi
   successful-job:
     name: Test success
