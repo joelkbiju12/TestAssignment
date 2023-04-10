@@ -53,6 +53,13 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
           python3 updateEnvExpiry.py $ACTION
+      - name: Inputs username (workflow call)
+        if: ${{ inputs.environment }} != ''
+        run: echo ${{ inputs.environment }}
+
+      - name: Inputs username (workflow dispatch)
+        if: ${{ github.event.inputs.environment }} != ''
+        run: echo ${{ github.event.inputs.environment }}
   successful-job:
     name: Test success
     runs-on: ubuntu-latest
