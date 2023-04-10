@@ -44,6 +44,11 @@ jobs:
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
           ACTION: ${{ inputs.action }}
         run: |
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+              echo "workflow_dispatch"
+          else
+              echo "workflow_call"
+          fi
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
