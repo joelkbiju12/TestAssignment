@@ -40,12 +40,13 @@ jobs:
         env:
           DEPLOY_NAMESPACE: ${{ inputs.environment }}
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
+          ACTION: ${{ inputs.action }}
         run: |
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
-          echo ${{ inputs.action }}
-          python3 updateEnvExpiry.py ${{ inputs.action }}
+          echo $ACTION
+          python3 updateEnvExpiry.py $ACTION
       
   successful-job:
     name: Test success
