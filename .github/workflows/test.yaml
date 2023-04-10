@@ -10,7 +10,7 @@ on:
         required: false
         description: "Action"
         type: string
-        default: "update"
+        
         
   workflow_dispatch:
     inputs:
@@ -18,7 +18,12 @@ on:
         required: true
         description: "Identifier for your environment"
         type: string
-        
+      value:
+        required: true
+        type: choice
+        description: Who to greet
+        options: 
+        - update
       
 jobs:
   ondemand-env-expiry:
