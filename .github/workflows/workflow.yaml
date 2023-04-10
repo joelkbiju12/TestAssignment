@@ -24,4 +24,4 @@ jobs:
     uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
     with:
       environment: ${{ inputs.environment}}
-      action: "delete"
+      action: "update"
