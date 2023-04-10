@@ -41,13 +41,16 @@ jobs:
         env:
           DEPLOY_NAMESPACE: ${{ inputs.environment }}
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
-          ACTION: ${{ github.event.inputs.action }}
         run: |
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
           echo ${{ github.event.inputs.action }}
-          python3 updateEnvExpiry.py $ACTION
+          if [ ${{ github.event.inputs.action }} = "delete" ]; then
+              python3 updateEnvExpiry.py delete
+          else
+              python3 updateEnvExpiry.py update
+          fi
       
   successful-job:
     name: Test success
