@@ -19,11 +19,10 @@ on:
         description: "Identifier for your environment"
         type: string
       action:
-        required: true
+        required: false
         description: "Action"
-        type: choice
-        options:
-          - update
+        type: string
+        default: "update"
           
       
 jobs:
@@ -46,11 +45,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
           echo ${{ github.event.inputs.action }}
-          if [ ${{ github.event.inputs.action }} == 'delete' ]; then
-              python3 updateEnvExpiry.py delete
-          else
-              python3 updateEnvExpiry.py update
-          fi
+          python3 updateEnvExpiry.py ${{ github.event.inputs.action }}
       
   successful-job:
     name: Test success
