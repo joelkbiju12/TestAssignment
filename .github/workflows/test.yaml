@@ -47,6 +47,9 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
           echo $ACTION
+          if [ $ACTION = "update" ]; then
+            echo "updatedddddddd"
+          fi
           python3 updateEnvExpiry.py $ACTION
       
   successful-job:
