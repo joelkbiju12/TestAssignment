@@ -42,25 +42,14 @@ jobs:
           EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
           ACTION: ${{ inputs.action }}
         run: |
-          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-              echo "workflow_dispatch"
+          if [ {{ $inputs.action}} = "update" ]; then
+              python3 updateEnvExpiry.py "update"
           else
-              echo "workflow_call"
+              python3 updateEnvExpiry.py "delete"
           fi
           sudo apt-get install -y python3-pip 
           python3 -m pip install --upgrade pip
           pip3 install datetime redis pytz
-          python3 updateEnvExpiry.py $ACTION
-      - name: Inputs username (workflow call)
-        if: ${{ inputs.action }} != ''
-        run: echo "workedbro
-
-      - name: Inputs username (workflow dispatch)
-        if: ${{ github.event.inputs.action }} != ''
-        run: echo ${{ github.event.inputs.action }}
-      - name: Print variable if not empty
-        if: github.event_name == 'workflow_dispatch'
-        run: echo "workflow_call"
   successful-job:
     name: Test success
     runs-on: ubuntu-latest
