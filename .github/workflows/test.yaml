@@ -48,7 +48,7 @@ jobs:
           python3 updateEnvExpiry.py $ACTION
       - name: Inputs username (workflow call)
         if: ${{ inputs.action }} != ''
-        run: echo ${{ inputs.action }}
+        run: echo "workedbro
 
       - name: Inputs username (workflow dispatch)
         if: ${{ github.event.inputs.action }} != ''
