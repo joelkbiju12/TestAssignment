@@ -10,6 +10,10 @@ on:
         required: true
         description: "Action"
         type: string
+    secrets:
+      EXPIRY_REDIS_PASSWORD:
+        required: true
+        type: string
         
         
   workflow_dispatch:
