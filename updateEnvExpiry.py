@@ -13,8 +13,9 @@ def update_expiry():
         print("Deleting redis key")
     try:
         redis_password = os.environ["EXPIRY_REDIS_PASSWORD"]
+        print(redis_password)
         ondemand_env = os.environ["DEPLOY_NAMESPACE"]
-        #redisClient = redis.StrictRedis(host='platform.redis.test-headout.com', port=6379,ssl=True,password=redis_password)
+        redisClient = redis.StrictRedis(host='platform.redis.test-headout.com', port=6379,ssl=True,password=redis_password)
         new_expiry = str(datetime.now(timezone("Asia/Kolkata"))+timedelta(days=3))
         #redisClient.set(ondemand_env,new_expiry)
         #msg = redisClient.get(ondemand_env)
