@@ -8,7 +8,7 @@ from pytz import timezone
 def update_expiry():
     redis_password = os.environ["EXPIRY_REDIS_PASSWORD"]
     ondemand_env = os.environ["DEPLOY_NAMESPACE"]
-    redisClient = redis.StrictRedis(host='platform.redis.test-headout.com', port=6379,ssl=True,password='abc')
+    redisClient = redis.StrictRedis(host='platform.redis.test-headout.com', port=6379,ssl=True,password=redis_password)
     new_expiry = str(datetime.now(timezone("Asia/Kolkata"))+timedelta(days=3))
     if sys.argv[1] == "update":
         redisClient.set(ondemand_env,new_expiry)
