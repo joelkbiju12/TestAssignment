@@ -10,6 +10,7 @@ def update_expiry():
     ondemand_env = os.environ["DEPLOY_NAMESPACE"]
     redisClient = redis.StrictRedis(host='platform.redis.test-headout.com', port=6379,ssl=True,password=redis_password)
     new_expiry = str(datetime.now(timezone("Asia/Kolkata"))+timedelta(days=3))
+    print(type(ondemand_env))
     if sys.argv[1] == "update":
         redisClient.set(ondemand_env,new_expiry)
         print(f"Namepace: {ondemand_env}\nExpiry: {new_expiry}")
