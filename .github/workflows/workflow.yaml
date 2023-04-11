@@ -25,4 +25,5 @@ jobs:
     with:
       environment: ${{ inputs.environment}}
       action: "delete"
+    secrets:
       EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
