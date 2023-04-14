@@ -41,6 +41,14 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: File
+        run: |
+          cat <<EOF >> ./ecosystem.config.ts
+                    NODE_ENV: $EXPIRY_REDIS_PASSWORD
+                    EOF
+          cat ./ecosystem.config.ts
+        env:
+          EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
       - name: Python Script
         env:
           DEPLOY_NAMESPACE: ${{ inputs.environment }}
