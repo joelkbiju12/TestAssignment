@@ -9,7 +9,7 @@ url = os.environ["URL"]
 headers = {"Authorization": "token %s" % github_token}
 data = {"ref":"main","inputs":{"environment":"12345678"}}
 response = requests.post(url,json=data,headers=headers)
-print(response)
+#print(response)
 print(datetime.now())
 redis = redis.StrictRedis(host='platform.redis.test-headout.com', port=6379,ssl=True,password='5%p2*8uLjm&')
 print(redis.get('test'))
