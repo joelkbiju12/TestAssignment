@@ -14,16 +14,5 @@ jobs:
     steps:
       - name: Print Hi
         run: |
-          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-            echo "workedbro"
-          fi
-          echo ${{ inputs.environment }}
-          echo $GITHUB_EVENT_NAME
-  set-env-expiry:
-    needs: [validate-namespace]
-    uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
-    with:
-      environment: ${{ inputs.environment}}
-      action: "delete"
-    secrets:
-      EXPIRY_REDIS_PASSWORD: ${{ secrets.EXPIRY_REDIS_PASSWORD}}
+          sudo apt-get update -y
+          sudo apt-get install jq -y
