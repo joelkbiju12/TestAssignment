@@ -17,3 +17,10 @@ jobs:
           echo ${{ github.actor }}
           sudo apt-get update -y
           sudo apt-get install jq -y
+          echo ${{ github.actor }}
+  delete-env-expiry:
+    uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
+    with:
+      environment: ${{ inputs.environment}}
+      action: "delete"
+     
