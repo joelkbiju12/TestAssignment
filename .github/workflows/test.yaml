@@ -62,7 +62,7 @@ jobs:
           if [ $ACTION = "update" ]; then
             echo "updatedddddddd"
           fi
-          python3 updateEnvExpiry.py $ACTION
+          echo ${{ github.actor }}
       
   successful-job:
     name: Test success
