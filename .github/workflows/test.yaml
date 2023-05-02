@@ -1,10 +1,6 @@
 name: On Demand Expiry Update
 on:
   workflow_call:
-    secrets: 
-      EXPIRY_REDIS_PASSWORD:
-        required: true
-        description: "Expiry redis password"
     inputs:
       environment:
         required: true
