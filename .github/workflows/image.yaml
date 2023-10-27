@@ -8,8 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      RELEASE_TAG: ${{ github.event.release.tag_name | cut -c 2- }}
     steps:
+      - name: Set environment variable
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          RELEASE_TAG=$(echo $TAG_NAME | cut -c 2-)
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+
       - name: Print environment variable
-        run: echo "RELEASE_TAG=$RELEASE_TAG"
+        run: |
+          echo "RELEASE_TAG=$RELEASE_TAG"
