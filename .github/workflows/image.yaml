@@ -1,0 +1,17 @@
+name: Image tag
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set hub_frontend_image_version
+        id: set_version
+        run: echo "::set-output name=version::${{ github.event.release.tag_name | cut -c 2- }}"
+
+      - name: Print hub_frontend_image_version
+        run: echo "hub_frontend_image_version: ${{ steps.set_version.outputs.version }}"
