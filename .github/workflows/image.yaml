@@ -1,4 +1,4 @@
-name: Image tag
+name: Set and Print Environment Variable
 
 on:
   release:
@@ -8,13 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name | cut -c 2- }}
     steps:
-      - name: Set hub_frontend_image_version
-        id: set_version
-        run: |
-          release_tag=${{ github.event.release.tag_name }}
-          hub_frontend_image_version=$(echo $release_tag | cut -c 2-)
-          echo "::set-output name=version::$hub_frontend_image_version"
-
-      - name: Print hub_frontend_image_version
-        run: echo "hub_frontend_image_version: ${{ steps.set_version.outputs.version }}"
+      - name: Print environment variable
+        run: echo "RELEASE_TAG=$RELEASE_TAG"
