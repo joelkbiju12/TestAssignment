@@ -1,26 +1,50 @@
-name: Print
+name: Selenium Inventory Build Workflow
+
 on:
   workflow_dispatch:
     inputs:
       environment:
         required: true
-        description: "Identifier for your environment"
-        type: string
-  repository_dispatch:
-    types: [publish_blog]
+        type: choice
+        description: Select an environment
+        options:
+          - production
+          - test
+
 jobs:
-  validate-namespace:
+  build:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_REPOSITORY: workflow-demo
+      APP_ENV: ${{ inputs.environment }}
     steps:
-      - name: Print Hi
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: set aws credentials
+        id: set-aws-credentials
         run: |
-          echo ${{ github.actor }}
-          sudo apt-get update -y
-          sudo apt-get install jq -y
-          echo ${{ github.actor }}
-  delete-env-expiry:
-    uses: joelkbiju12/HeadoutAssignment/.github/workflows/test.yaml@main
-    with:
-      environment: ${{ inputs.environment}}
-      action: "delete"
-     
+          if [[ $APP_ENV == "production" ]]; then
+              echo "AWS_REGION=us-east-1" >> "$GITHUB_ENV"
+              echo "AWS_ACCESS_KEY=prod" >> "$GITHUB_ENV"
+              echo "AWS_SECRET_KEY=prod" >> "$GITHUB_ENV"
+          else
+              echo "AWS_REGION=ap-south-1" >> "$GITHUB_ENV"
+              echo "AWS_ACCESS_KEY=test" >> "$GITHUB_ENV"
+              echo "AWS_SECRET_KEY=test" >> "$GITHUB_ENV"
+          fi
+      - name: Docker meta
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          images: 999499138329.dkr.ecr.us-east-1.amazonaws.com/workflow-demo
+          tags: |
+            type=ref,event=tag 
+            type=raw,value=${{ inputs.environment }}-{{sha}}
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
+
+      - name: Build version output
+        run: |
+          echo '#### Docker Image Version' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "${{steps.docker_meta.outputs.version}}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
